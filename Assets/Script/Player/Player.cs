@@ -111,7 +111,9 @@ public class Player : MonoBehaviour
         if (shouldJump == true)
         {
             rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-            shouldJump = false;
+            //rb.velocity = Vector2.ClampMagnitude(rb.velocity, 10);
+            shouldJump = false; 
+            Debug.Log("Jump!");
         }
 
         //Change player's velocity
@@ -161,7 +163,7 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) || joystick.Vertical > joystickVerticalSensitivity)
         {
             //Only can jump if player is on ground and not loaded projectile
-            if (IsPlayerOnGround() == true)
+            if (IsPlayerOnGround() == true && shouldJump == false)
             {
                 //SoundManager.instance.PLaySE(JumpSound);
                 shouldJump = true;
@@ -229,7 +231,14 @@ public class Player : MonoBehaviour
 
         //Debug.Log(result.collider);
 
-        return (result.collider != null);
+        bool check = false;
+
+        if(result.collider != null && rb.velocity.y == 0f)
+        {
+            check = true;
+        }
+
+        return check;
     }
 
     private void OnDrawGizmosSelected()
