@@ -43,7 +43,7 @@ public class Player : MonoBehaviour
 
     //bool isFacingRight = true; //Is character facing right side? for Characte flip
 
-    [SerializeField] LayerMask tileLayerMask; //Used to check if player is on ground
+    [SerializeField] LayerMask tileLayerMask = 0; //Used to check if player is on ground
 
     // to Get SFX sound name 
     //[SerializeField]
@@ -59,8 +59,9 @@ public class Player : MonoBehaviour
     //Camera mainCam = null;
 
     [Header("Joystick")]
-    [SerializeField] Joystick joystick; //joystick for player movement
-    [SerializeField] float joystickSensitivity; //minimum sensitiviy for joystick
+    [SerializeField] Joystick joystick = null; //joystick for player movement
+    [SerializeField] float joystickHorizontalSensitivity = 0f; //minimum sensitiviy for joystick
+    [SerializeField] float joystickVerticalSensitivity = 0f; //minimum sensitiviy for joystick
     #endregion
 
     // Start is called before the first frame update
@@ -123,7 +124,7 @@ public class Player : MonoBehaviour
     void HandleInput()
     {
         //Move to right
-        if (Input.GetKey(KeyCode.D) || joystick.Horizontal > joystickSensitivity)
+        if (Input.GetKey(KeyCode.D) || joystick.Horizontal > joystickHorizontalSensitivity)
         {
             moveDir.x = 1;
             spriteRenderer.flipX = false;
@@ -137,7 +138,7 @@ public class Player : MonoBehaviour
 
         }
         //Move to left
-        else if (Input.GetKey(KeyCode.A) || joystick.Horizontal < -joystickSensitivity)
+        else if (Input.GetKey(KeyCode.A) || joystick.Horizontal < -joystickHorizontalSensitivity)
         {
             moveDir.x = -1;
             spriteRenderer.flipX = true;
@@ -157,7 +158,7 @@ public class Player : MonoBehaviour
 
 
         //Jump
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) || joystick.Vertical > joystickVerticalSensitivity)
         {
             //Only can jump if player is on ground and not loaded projectile
             if (IsPlayerOnGround() == true)
