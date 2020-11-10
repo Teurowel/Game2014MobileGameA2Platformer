@@ -1,4 +1,11 @@
-﻿using System.Collections;
+﻿//SourceFileName : Player.cs
+//Author's name : Doosung Jang
+//Studnet Number : 101175013
+//Date last Modified : Nov.10, 2020
+//Program description : This script handles player such as player animation, movement, attack etc...
+//Revision History : Nov.10, 2020 Created, Added simple movement
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,6 +18,7 @@ public class Player : MonoBehaviour
     Rigidbody2D rb = null; //player's rigid body
     CapsuleCollider2D capsuleCollider2D = null; //Player's capsule collider
     Animator animator = null;
+    SpriteRenderer spriteRenderer;
 
     //[SerializeField] bool debugMode = false;
 
@@ -33,7 +41,7 @@ public class Player : MonoBehaviour
     //Projectile loadedProjectile = null; //projectile that is wating for shooting
     //Vector3 shootingLine; //Direction for loaded projectile
 
-    bool isFacingRight = true; //Is character facing right side? for Characte flip
+    //bool isFacingRight = true; //Is character facing right side? for Characte flip
 
     [SerializeField] LayerMask tileLayerMask; //Used to check if player is on ground
 
@@ -50,6 +58,9 @@ public class Player : MonoBehaviour
 
     //Camera mainCam = null;
 
+    [Header("Joystick")]
+    [SerializeField] Joystick joystick; //joystick for player movement
+    [SerializeField] float joystickSensitivity; //minimum sensitiviy for joystick
     #endregion
 
     // Start is called before the first frame update
@@ -57,6 +68,8 @@ public class Player : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         capsuleCollider2D = GetComponent<CapsuleCollider2D>();
+        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        animator = GetComponentInChildren<Animator>();
         //animator = GetComponentInChildren<Animator>();
 
         //Create queue for projectile pool
@@ -109,35 +122,37 @@ public class Player : MonoBehaviour
 
     void HandleInput()
     {
-        //Horizontal move
-        if (Input.GetKey(KeyCode.A))
-        {
-            moveDir.x = -1;
-
-            //Characte flip
-            if (isFacingRight == true)
-            {
-                isFacingRight = false;
-                transform.Rotate(0f, 180f, 0f);
-            }
-
-        }
-        else if (Input.GetKey(KeyCode.D))
+        //Move to right
+        if (Input.GetKey(KeyCode.D) || joystick.Horizontal > joystickSensitivity)
         {
             moveDir.x = 1;
+            spriteRenderer.flipX = false;
 
-            //Characte flip
-            if (isFacingRight == false)
-            {
-                isFacingRight = true;
-                transform.Rotate(0f, 180f, 0f);
-            }
+            ////Characte flip
+            //if (isFacingRight == true)
+            //{
+            //    isFacingRight = false;
+            //    transform.Rotate(0f, 180f, 0f);
+            //}
+
+        }
+        //Move to left
+        else if (Input.GetKey(KeyCode.A) || joystick.Horizontal < -joystickSensitivity)
+        {
+            moveDir.x = -1;
+            spriteRenderer.flipX = true;
+
+            ////Characte flip
+            //if (isFacingRight == false)
+            //{
+            //    isFacingRight = true;
+            //    transform.Rotate(0f, 180f, 0f);
+            //}
 
         }
         else
         {
             moveDir.x = 0f;
-
         }
 
 
