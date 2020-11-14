@@ -2,8 +2,8 @@
 //Author's name : Doosung Jang
 //Studnet Number : 101175013
 //Date last Modified : Nov.14, 2020
-//Program description : This script handles moving background
-//Revision History : Nov.14, 2020 Created, Added simple background scrolling
+//Program description : This script handles life count ui
+//Revision History : Nov.14, 2020 Created
 
 using System.Collections;
 using System.Collections.Generic;
