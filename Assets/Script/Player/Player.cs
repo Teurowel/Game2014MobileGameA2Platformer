@@ -227,14 +227,15 @@ public class Player : MonoBehaviour
     bool IsPlayerOnGround()
     {
         //Do capsule cast to downward of player so that it checks if player is on ground
-        RaycastHit2D result = Physics2D.CapsuleCast(capsuleCollider2D.bounds.center, capsuleCollider2D.bounds.size, CapsuleDirection2D.Vertical, 0f, Vector2.down, 0.1f, tileLayerMask);
+        RaycastHit2D result = Physics2D.CapsuleCast(capsuleCollider2D.bounds.center, capsuleCollider2D.bounds.size, CapsuleDirection2D.Vertical, 0f, Vector2.down, 0.05f, tileLayerMask);
 
         //Debug.Log(result.collider);
 
         bool check = false;
 
-        if(result.collider != null && rb.velocity.y == 0f)
+        if(result.collider != null && rb.velocity.y <= 0f)
         {
+            Debug.Log("Ground");
             check = true;
         }
 
