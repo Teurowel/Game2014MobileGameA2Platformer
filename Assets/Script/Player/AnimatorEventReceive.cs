@@ -12,7 +12,7 @@ using UnityEngine.Events;
 
 public class AnimatorEventReceive : MonoBehaviour
 {
-    public UnityEvent onAttackAnimFinished; //Player will subscibe this
+    public UnityEvent onAttackAnimFinished; //Player will subscibe this, enemy will subscribe this
 
     //// Start is called before the first frame update
     //void Start()

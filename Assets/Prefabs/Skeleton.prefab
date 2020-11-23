@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1680450787268422013}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.17, y: -0.52, z: 0}
+  m_LocalPosition: {x: 1.04, y: -0.68, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3923328297362529211}
@@ -41,6 +41,7 @@ GameObject:
   - component: {fileID: 3923328297206292092}
   - component: {fileID: 3923328297206292066}
   - component: {fileID: 3923328297206292093}
+  - component: {fileID: 2352540176190966418}
   m_Layer: 9
   m_Name: SkeletonGFX
   m_TagString: Untagged
@@ -132,6 +133,21 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &2352540176190966418
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3923328297206292095}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ced4c685cf6bb04e8735a1a37a9550c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onAttackAnimFinished:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &3923328297362529210
 GameObject:
   m_ObjectHideFlags: 0
@@ -164,6 +180,7 @@ Transform:
   m_Children:
   - {fileID: 3923328297206292092}
   - {fileID: 6568776659233017910}
+  - {fileID: 9090382830938432903}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -179,7 +196,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 10
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
@@ -222,3 +239,40 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 256
+  attackCirclePos: {fileID: 9090382830938432903}
+  attackCircleRadius: 0.86
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 1024
+  attackSpeed: 1
+  attackFirstDelay: 0.3
+--- !u!1 &7885226772079192926
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9090382830938432903}
+  m_Layer: 9
+  m_Name: AttackCircle
+  m_TagString: Untagged
+  m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &9090382830938432903
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7885226772079192926}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.18, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 3923328297362529211}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
