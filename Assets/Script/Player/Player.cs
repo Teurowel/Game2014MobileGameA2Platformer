@@ -80,7 +80,16 @@ public class Player : MonoBehaviour
         capsuleCollider2D = GetComponent<CapsuleCollider2D>();
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         animator = GetComponentInChildren<Animator>();
-        GetComponentInChildren<AnimatorEventReceive>().onAttackAnimFinished.AddListener(OnAttackAnimFinished);
+
+        //Add callback functions
+        AnimatorEventReceive aer = GetComponentInChildren<AnimatorEventReceive>();
+        if (aer != null)
+        {
+            aer.onAttackAnimFinished.AddListener(OnAttackAnimFinished);
+            aer.onAttackCalculation.AddListener(OnAttackCalculation);
+        }
+
+
         stats = GetComponent<Stats>();
         //animator = GetComponentInChildren<Animator>();
 
@@ -235,22 +244,6 @@ public class Player : MonoBehaviour
         {         
             //Play animation
             animator.SetTrigger("Attack");
-            Debug.Log("Attack");
-
-            //Cast circle to detect enemies
-            Collider2D[] enemiesToDamage = Physics2D.OverlapCircleAll(attackCirclePos.position, attackCircleRadius, enemyLayer);
-            if (enemiesToDamage != null)
-            {
-                //Deal all enemies inside circle
-                for (int i = 0; i < enemiesToDamage.Length; ++i)
-                {
-                    Stats enemyStats = enemiesToDamage[i].gameObject.GetComponent<Stats>();
-                    if(enemyStats != null)
-                    {
-                        enemyStats.GetDamage(stats.damage);
-                    }
-                }
-            }
 
             attackCool = false;
             Invoke("ResetAttackCool", attackSpeed);
@@ -294,5 +287,23 @@ public class Player : MonoBehaviour
     void OnAttackAnimFinished()
     {
         isAttacking = false;
+    }
+
+    void OnAttackCalculation()
+    {
+        //Cast circle to detect enemies
+        Collider2D[] enemiesToDamage = Physics2D.OverlapCircleAll(attackCirclePos.position, attackCircleRadius, enemyLayer);
+        if (enemiesToDamage != null)
+        {
+            //Deal all enemies inside circle
+            for (int i = 0; i < enemiesToDamage.Length; ++i)
+            {
+                Stats enemyStats = enemiesToDamage[i].gameObject.GetComponent<Stats>();
+                if (enemyStats != null)
+                {
+                    enemyStats.GetDamage(stats.damage);
+                }
+            }
+        }
     }
 }

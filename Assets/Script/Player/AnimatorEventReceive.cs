@@ -13,17 +13,18 @@ using UnityEngine.Events;
 public class AnimatorEventReceive : MonoBehaviour
 {
     public UnityEvent onAttackAnimFinished; //Player will subscibe this, enemy will subscribe this
+    public UnityEvent onAttackCalculation; //Player will subscibe this, enemy will subscribe this
 
     //// Start is called before the first frame update
     //void Start()
     //{
-        
+
     //}
 
     //// Update is called once per frame
     //void Update()
     //{
-        
+
     //}
 
     public void OnAttackAnimFinished()
@@ -32,6 +33,15 @@ public class AnimatorEventReceive : MonoBehaviour
         if (onAttackAnimFinished != null)
         {
             onAttackAnimFinished.Invoke();
+        }
+    }
+
+    //When attack animation visible(just at the moment when sword was swung)
+    public void OnAttackCalculation()
+    {
+        if(onAttackCalculation != null)
+        {
+            onAttackCalculation.Invoke();
         }
     }
 }

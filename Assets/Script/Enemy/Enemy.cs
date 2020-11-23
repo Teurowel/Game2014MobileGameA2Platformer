@@ -47,7 +47,13 @@ public class Enemy : MonoBehaviour
 
         player = FindObjectOfType<Player>();
 
-        GetComponentInChildren<AnimatorEventReceive>().onAttackAnimFinished.AddListener(OnAttackAnimFinished);
+        //Add callback functions
+        AnimatorEventReceive aer = GetComponentInChildren<AnimatorEventReceive>();
+        if(aer != null)
+        {
+            aer.onAttackAnimFinished.AddListener(OnAttackAnimFinished);
+            aer.onAttackCalculation.AddListener(OnAttackCalculation);
+        }
 
         stats = GetComponent<Stats>();
     }
@@ -115,18 +121,6 @@ public class Enemy : MonoBehaviour
     {        
         animator.SetTrigger("Attack");
 
-        //Cast circle to detect enemies
-        Collider2D playerToDamage = Physics2D.OverlapCircle(attackCirclePos.position, attackCircleRadius, playerLayer);
-        if (playerToDamage != null)
-        {
-            Stats playerStats = playerToDamage.gameObject.GetComponent<Stats>();
-            if (playerStats != null)
-            {
-                Debug.Log("Damage Player");
-                playerStats.GetDamage(stats.damage);
-            }
-        }
-
         Invoke("ResetAttackCool", attackSpeed);
     }
 
@@ -180,5 +174,20 @@ public class Enemy : MonoBehaviour
     void OnAttackAnimFinished()
     {
         isAttacking = false;
+    }
+
+    void OnAttackCalculation()
+    {
+        //Cast circle to detect enemies
+        Collider2D playerToDamage = Physics2D.OverlapCircle(attackCirclePos.position, attackCircleRadius, playerLayer);
+        if (playerToDamage != null)
+        {
+            Stats playerStats = playerToDamage.gameObject.GetComponent<Stats>();
+            if (playerStats != null)
+            {
+                Debug.Log("Damage Player");
+                playerStats.GetDamage(stats.damage);
+            }
+        }
     }
 }
