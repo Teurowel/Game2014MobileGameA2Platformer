@@ -19,15 +19,14 @@ public class Player : MonoBehaviour
     Rigidbody2D rb = null; //player's rigid body
     CapsuleCollider2D capsuleCollider2D = null; //Player's capsule collider
     Animator animator = null;
-    SpriteRenderer spriteRenderer;
+    SpriteRenderer spriteRenderer = null;
+    Stats stats = null;
 
     //[SerializeField] bool debugMode = false;
 
     [Header("Attribute")]
     public float moveSpeed = 3.0f;
     public float jumpForce = 10f; //How strong does player jump
-    //public float shootCoolTime = 0.5f; //Projectile shoot cool time
-    public int hp = 10;
 
     Vector2 moveDir = Vector2.zero; //player's movement direction
     bool isFacingRight = true;
@@ -82,6 +81,7 @@ public class Player : MonoBehaviour
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         animator = GetComponentInChildren<Animator>();
         GetComponentInChildren<AnimatorEventReceive>().onAttackAnimFinished.AddListener(OnAttackAnimFinished);
+        stats = GetComponent<Stats>();
         //animator = GetComponentInChildren<Animator>();
 
         //Create queue for projectile pool
@@ -244,7 +244,11 @@ public class Player : MonoBehaviour
                 //Deal all enemies inside circle
                 for (int i = 0; i < enemiesToDamage.Length; ++i)
                 {
-                    Debug.Log("Deal enemy");
+                    Stats enemyStats = enemiesToDamage[i].gameObject.GetComponent<Stats>();
+                    if(enemyStats != null)
+                    {
+                        enemyStats.GetDamage(stats.damage);
+                    }
                 }
             }
 

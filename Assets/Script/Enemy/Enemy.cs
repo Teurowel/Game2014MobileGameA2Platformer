@@ -3,7 +3,7 @@
 //Studnet Number : 101175013
 //Date last Modified : Nov.23, 2020
 //Program description : This script handles basic enemy's variables and behaviour
-//Revision History : Nov.23, 2020 Created, added ground checking, movement
+//Revision History : Nov.23, 2020 Created, added ground checking, movement, attacking
 
 using System.Collections;
 using System.Collections.Generic;
@@ -13,6 +13,7 @@ public class Enemy : MonoBehaviour
 {
     Rigidbody2D rb = null; //player's rigid body
     Animator animator = null;
+    Stats stats = null;
 
     [Header("Attribute")]
     public float moveSpeed = 1.5f;
@@ -47,6 +48,8 @@ public class Enemy : MonoBehaviour
         player = FindObjectOfType<Player>();
 
         GetComponentInChildren<AnimatorEventReceive>().onAttackAnimFinished.AddListener(OnAttackAnimFinished);
+
+        stats = GetComponent<Stats>();
     }
 
     // Update is called once per frame
@@ -109,16 +112,19 @@ public class Enemy : MonoBehaviour
     }
 
     void TriggerAttack()
-    {
-        Debug.Log("Attack player");
-        
+    {        
         animator.SetTrigger("Attack");
 
         //Cast circle to detect enemies
         Collider2D playerToDamage = Physics2D.OverlapCircle(attackCirclePos.position, attackCircleRadius, playerLayer);
         if (playerToDamage != null)
         {
-            Debug.Log("Deal player");
+            Stats playerStats = playerToDamage.gameObject.GetComponent<Stats>();
+            if (playerStats != null)
+            {
+                Debug.Log("Damage Player");
+                playerStats.GetDamage(stats.damage);
+            }
         }
 
         Invoke("ResetAttackCool", attackSpeed);

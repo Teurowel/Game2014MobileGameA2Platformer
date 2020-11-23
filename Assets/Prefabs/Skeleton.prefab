@@ -160,6 +160,8 @@ GameObject:
   - component: {fileID: 3923328297362529209}
   - component: {fileID: 3923328297362529208}
   - component: {fileID: 1114571428041997284}
+  - component: {fileID: 3384679751202525533}
+  - component: {fileID: 3375687334871607570}
   m_Layer: 9
   m_Name: Skeleton
   m_TagString: Untagged
@@ -246,6 +248,38 @@ MonoBehaviour:
     m_Bits: 1024
   attackSpeed: 1
   attackFirstDelay: 0.3
+--- !u!114 &3384679751202525533
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3923328297362529210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4d590e24d03f924599a8c0b0b841928, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hp: 50
+  maxHp: 50
+  damage: 10
+  onHealthChanged:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &3375687334871607570
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3923328297362529210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 185cd7b5b79a71341b423818e3ec4014, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uiPrefab: {fileID: 7887852777257800163, guid: fccccaf516b57704797153981bd60d82, type: 3}
+  yOffset: 1
 --- !u!1 &7885226772079192926
 GameObject:
   m_ObjectHideFlags: 0
