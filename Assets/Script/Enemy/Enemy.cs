@@ -3,7 +3,7 @@
 //Studnet Number : 101175013
 //Date last Modified : Nov.23, 2020
 //Program description : This script handles basic enemy's variables and behaviour
-//Revision History : Nov.23, 2020 Created
+//Revision History : Nov.23, 2020 Created, added ground checking, movement
 
 using System.Collections;
 using System.Collections.Generic;
@@ -12,6 +12,7 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     Rigidbody2D rb = null; //player's rigid body
+    Animator animator = null;
 
     [Header("Attribute")]
     public float moveSpeed = 1.5f;
@@ -30,6 +31,8 @@ public class Enemy : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        animator = GetComponentInChildren<Animator>();
+        animator.SetFloat("HorizontalSpeed", moveDir.x);
     }
 
     //// Update is called once per frame
@@ -65,6 +68,7 @@ public class Enemy : MonoBehaviour
                 transform.localScale = scale;
 
                 moveDir.x *= -1.0f;
+                animator.SetFloat("HorizontalSpeed", moveDir.sqrMagnitude);
             }
             else
             {
@@ -74,6 +78,7 @@ public class Enemy : MonoBehaviour
                 transform.localScale = scale;
 
                 moveDir.x *= -1.0f;
+                animator.SetFloat("HorizontalSpeed", moveDir.sqrMagnitude);
             }
         }
     }
