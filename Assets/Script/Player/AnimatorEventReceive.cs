@@ -1,4 +1,11 @@
-﻿using System.Collections;
+﻿//SourceFileName : AnimatorEventReceive.cs
+//Author's name : Doosung Jang
+//Studnet Number : 101175013
+//Date last Modified : Nov.23, 2020
+//Program description : This script handles animator's event
+//Revision History : Nov.23, 2020 Created, Added OnAttackAnimFinished that is called by animator event
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
