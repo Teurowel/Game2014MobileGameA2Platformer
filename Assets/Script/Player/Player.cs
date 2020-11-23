@@ -4,6 +4,7 @@
 //Date last Modified : Nov.10, 2020
 //Program description : This script handles player such as player animation, movement, attack etc...
 //Revision History : Nov.10, 2020 Created, Added simple movement
+//                   Nov.23, 2020, Added jumping, Falling animation system, Added attack
 
 using System.Collections;
 using System.Collections.Generic;
@@ -29,6 +30,7 @@ public class Player : MonoBehaviour
     public int hp = 10;
 
     Vector2 moveDir = Vector2.zero; //player's movement direction
+    bool isFacingRight = true;
 
     bool shouldJump = false; //Check if player should jump
     //bool canShoot = true; //Check if player can shoot projectile
@@ -62,6 +64,14 @@ public class Player : MonoBehaviour
     [SerializeField] Joystick joystick = null; //joystick for player movement
     [SerializeField] float joystickHorizontalSensitivity = 0f; //minimum sensitiviy for joystick
     [SerializeField] float joystickVerticalSensitivity = 0f; //minimum sensitiviy for joystick
+
+    [Header("Attack")]
+    [SerializeField] Transform attackCirclePos = null; //Circle's center position that will detect enemies
+    [SerializeField] float attackCircleRadius = 0.0f; //Circle's radius
+    [SerializeField] LayerMask enemyLayer; //enemy layer
+    bool attackCool = true;
+    [SerializeField] float attackSpeed = 1.0f; //attack per second
+    bool isAttacking = false; //TO prevent moving when player is attacking
     #endregion
 
     // Start is called before the first frame update
@@ -71,6 +81,7 @@ public class Player : MonoBehaviour
         capsuleCollider2D = GetComponent<CapsuleCollider2D>();
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         animator = GetComponentInChildren<Animator>();
+        GetComponentInChildren<AnimatorEventReceive>().onAttackAnimFinished.AddListener(OnAttackAnimFinished);
         //animator = GetComponentInChildren<Animator>();
 
         //Create queue for projectile pool
@@ -102,7 +113,10 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        HandleInput();
+        if (isAttacking == false)
+        {
+            HandleInput();
+        }
     }
 
     private void FixedUpdate()
@@ -146,31 +160,31 @@ public class Player : MonoBehaviour
         if (Input.GetKey(KeyCode.D) || joystick.Horizontal > joystickHorizontalSensitivity)
         {
             moveDir.x = 1;
-            spriteRenderer.flipX = false;
+            //spriteRenderer.flipX = false;
+            if (isFacingRight == false)
+            {
+                Vector3 scale = transform.localScale;
+                scale.x *= -1.0f;
+                transform.localScale = scale;
+                isFacingRight = true;
+            }
 
             animator.SetFloat("HorizontalSpeed", 1.0f);
-            ////Characte flip
-            //if (isFacingRight == true)
-            //{
-            //    isFacingRight = false;
-            //    transform.Rotate(0f, 180f, 0f);
-            //}
-
         }
         //Move to left
         else if (Input.GetKey(KeyCode.A) || joystick.Horizontal < -joystickHorizontalSensitivity)
         {
             moveDir.x = -1;
-            spriteRenderer.flipX = true;
+            //spriteRenderer.flipX = true;
+            if (isFacingRight == true)
+            {
+                Vector3 scale = transform.localScale;
+                scale.x *= -1.0f;
+                transform.localScale = scale;
+                isFacingRight = false;
+            }
 
             animator.SetFloat("HorizontalSpeed", 1.0f);
-            ////Characte flip
-            //if (isFacingRight == false)
-            //{
-            //    isFacingRight = true;
-            //    transform.Rotate(0f, 180f, 0f);
-            //}
-
         }
         else
         {
@@ -191,6 +205,12 @@ public class Player : MonoBehaviour
             }
         }
 
+        //Attack
+        if (Input.GetKeyDown(KeyCode.J))
+        {
+            Attack();
+        }
+
         ////Interact
         //if (Input.GetKeyDown(KeyCode.E))
         //{
@@ -206,44 +226,40 @@ public class Player : MonoBehaviour
         //        }
         //    }
         //}
-
-        //MouseInputHandle();
     }
 
-    void ShootProjectile()
+    public void Attack()
     {
-        ////Get projectile from list
-        //if (listOfProjectile.Count != 0)
-        //{
-        //    Projectile projectile = listOfProjectile.Dequeue();
+        //Can only attack when player is on ground
+        if (IsPlayerOnGround() == true && attackCool == true)
+        {         
+            //Play animation
+            animator.SetTrigger("Attack");
+            Debug.Log("Attack");
 
-        //    //Activate projectile
-        //    projectile.gameObject.SetActive(true);
+            //Cast circle to detect enemies
+            Collider2D[] enemiesToDamage = Physics2D.OverlapCircleAll(attackCirclePos.position, attackCircleRadius, enemyLayer);
+            if (enemiesToDamage != null)
+            {
+                //Deal all enemies inside circle
+                for (int i = 0; i < enemiesToDamage.Length; ++i)
+                {
+                    Debug.Log("Deal enemy");
+                }
+            }
 
-        //    //Set projectile in front of player
-        //    Vector3 forwardVec = -transform.right;
-        //    Vector3 upwardVec = transform.up;
-        //    projectile.transform.position = transform.position + (forwardVec * projectileSpawnXOffset) + (upwardVec * projectileSpawnYOffset);
+            attackCool = false;
+            Invoke("ResetAttackCool", attackSpeed);
 
-        //    //Set projectile move direction
-        //    projectile.SetProjectileDirection(forwardVec);
-
-        //    //Can't shoot projectile continousely
-        //    canShoot = false;
-        //    Invoke("ResetShootCoolDown", shootCoolTime);
-        //}
+            isAttacking = true;
+            moveDir.x = 0f;
+        }
     }
 
-    //void ResetShootCoolDown()
-    //{
-    //    canShoot = true;
-    //}
-
-    ////Return projectile to pool
-    //public void ReturnProjectile(Projectile projectile)
-    //{
-    //    listOfProjectile.Enqueue(projectile);
-    //}
+    void ResetAttackCool()
+    {
+        attackCool = true;
+    }
 
     bool IsPlayerOnGround()
     {
@@ -265,79 +281,14 @@ public class Player : MonoBehaviour
 
     private void OnDrawGizmosSelected()
     {
-        //if (debugMode)
-        //{
-        //    //Draw interactable circle
-        //    Gizmos.color = Color.yellow;
-        //    Gizmos.DrawWireSphere(transform.position, interactRadius);
-        //}
+        //Draw attack circle
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(attackCirclePos.position, attackCircleRadius);
+
     }
 
-    //private void MouseInputHandle()
-    //{
-    //    //Left mouse down for spawn projectile
-    //    if (Input.GetMouseButtonDown(0))
-    //    {
-    //        //Can only shoot when player is on ground
-    //        if (canShoot == true && IsPlayerOnGround())
-    //        {
-    //            //Get projectile from list
-    //            if (listOfProjectile.Count != 0)
-    //            {
-    //                loadedProjectile = listOfProjectile.Dequeue();
-
-    //                //Activate projectile
-    //                loadedProjectile.gameObject.SetActive(true);
-    //            }
-    //        }
-    //    }
-
-    //    //If holding mouse left button, calculate loaded projectile's position
-    //    if (Input.GetMouseButton(0))
-    //    {
-    //        if (loadedProjectile != null)
-    //        {
-    //            //GEt mouse position of world
-    //            Vector3 mousePos = mainCam.ScreenToWorldPoint(Input.mousePosition);
-    //            mousePos.z = 0f;
-
-    //            if (debugMode)
-    //            {
-    //                //Draw shooting line
-    //                Debug.DrawLine(transform.position, mousePos, Color.red);
-    //            }
-
-
-    //            //Get forward vector of player
-    //            Vector3 forwardVector = -transform.right;
-
-    //            //Calculate shooting line
-    //            shootingLine = mousePos - transform.position;
-    //            shootingLine.Normalize();
-
-    //            //Get angle between forward vector and shooting line
-    //            float angleBetween = Vector2.Angle(forwardVector, shootingLine);
-
-    //            //Set projectile based on shooting line
-    //            if (angleBetween <= 45)
-    //            {
-    //                loadedProjectile.transform.position = transform.position + (shootingLine * projectileSpawnDistance);
-    //            }
-    //        }
-    //    }
-
-    //    //If release mosue left button, shoot loaded projectile
-    //    if (Input.GetMouseButtonUp(0))
-    //    {
-    //        if (loadedProjectile != null)
-    //        {
-    //            loadedProjectile.SetProjectileDirection(shootingLine);
-    //            loadedProjectile = null;
-
-    //            //Can't shoot projectile continousely
-    //            canShoot = false;
-    //            Invoke("ResetShootCoolDown", shootCoolTime);
-    //        }
-    //    }
-    //}
+    void OnAttackAnimFinished()
+    {
+        isAttacking = false;
+    }
 }
