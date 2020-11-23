@@ -120,7 +120,24 @@ public class Player : MonoBehaviour
         Vector2 tempVel = rb.velocity;
         tempVel.x = moveDir.x * moveSpeed;
         rb.velocity = tempVel;
-        //animator.SetInteger("Direction", (int)moveDir.x);
+
+        //Set vertical speed for animator
+        animator.SetFloat("VerticalSpeed", rb.velocity.y);
+
+        //Check if animation is playing jumping, if true, check we are on ground and set jumping back to idle
+        if(animator.GetBool("IsJumping") == true)
+        {
+            if(IsPlayerOnGround() == true)
+            {
+                animator.SetBool("IsJumping", false);
+            }
+        }
+
+        //If we just fall...
+        if(rb.velocity.y < -1.0f)
+        {
+            animator.SetBool("IsJumping", true);
+        }
     }
 
     void HandleInput()
@@ -131,6 +148,7 @@ public class Player : MonoBehaviour
             moveDir.x = 1;
             spriteRenderer.flipX = false;
 
+            animator.SetFloat("HorizontalSpeed", 1.0f);
             ////Characte flip
             //if (isFacingRight == true)
             //{
@@ -145,6 +163,7 @@ public class Player : MonoBehaviour
             moveDir.x = -1;
             spriteRenderer.flipX = true;
 
+            animator.SetFloat("HorizontalSpeed", 1.0f);
             ////Characte flip
             //if (isFacingRight == false)
             //{
@@ -156,6 +175,7 @@ public class Player : MonoBehaviour
         else
         {
             moveDir.x = 0f;
+            animator.SetFloat("HorizontalSpeed", 0.0f);
         }
 
 
@@ -167,6 +187,7 @@ public class Player : MonoBehaviour
             {
                 //SoundManager.instance.PLaySE(JumpSound);
                 shouldJump = true;
+                animator.SetBool("IsJumping", true);
             }
         }
 
