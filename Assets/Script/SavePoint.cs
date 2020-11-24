@@ -29,6 +29,15 @@ public class SavePoint : MonoBehaviour
         if(collision.gameObject.CompareTag("Player"))
         {
             FindObjectOfType<ResetZone>().currentSavePoint = gameObject.transform;
+
+            if (SoundManager.instance != null)
+            {
+                SoundManager.instance.Play("SavePointSFX");
+            }
+            else
+            {
+                Debug.Log("Should start from main menu scene since SoundManager is only created in menu scene");
+            }
         }
     }
 }

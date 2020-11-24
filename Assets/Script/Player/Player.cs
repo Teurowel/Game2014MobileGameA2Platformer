@@ -291,13 +291,13 @@ public class Player : MonoBehaviour
         Invoke("ResetPlayer", 3);
     }
 
-    void ResetPlayer()
+    public void ResetPlayer()
     {
         FindObjectOfType<ResetZone>().ResetPlayer();
 
         animator.SetTrigger("ResetAnim");
 
-        stats.GetDamage(-stats.maxHp);
+        ResetHP();
 
         //Disable collider
         capsuleCollider2D.enabled = true;
@@ -306,5 +306,10 @@ public class Player : MonoBehaviour
         rb.bodyType = RigidbodyType2D.Dynamic;
 
         hasDead = false;
+    }
+
+    public void ResetHP()
+    {
+        stats.SetHP(stats.maxHp);
     }
 }

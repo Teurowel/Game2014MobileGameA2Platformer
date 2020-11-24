@@ -49,4 +49,14 @@ public class Stats : MonoBehaviour
             onHealthChanged.Invoke(hp, maxHp);
         }
     }
+
+    public void SetHP(int newHP)
+    {
+        hp = newHP;
+
+        if (onHealthChanged != null)
+        {
+            onHealthChanged.Invoke(hp, maxHp);
+        }
+    }
 }

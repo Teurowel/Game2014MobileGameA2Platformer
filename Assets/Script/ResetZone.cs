@@ -45,6 +45,7 @@ public class ResetZone : MonoBehaviour
             if (player != null)
             {
                 player.gameObject.transform.position = pos;
+                player.ResetHP();
             }
 
             if (GlobalData.instance != null)

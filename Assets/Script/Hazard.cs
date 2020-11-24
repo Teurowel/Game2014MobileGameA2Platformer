@@ -28,7 +28,7 @@ public class Hazard : MonoBehaviour
         if(collision.gameObject.CompareTag("Player"))
         {
             ResetZone rz = FindObjectOfType<ResetZone>();
-            if(rz != null)
+            if (rz != null)
             {
                 rz.ResetPlayer();
             }
