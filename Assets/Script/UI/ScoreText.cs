@@ -1,4 +1,11 @@
-﻿using System.Collections;
+﻿//SourceFileName : ScoreText.cs
+//Author's name : Doosung Jang
+//Studnet Number : 101175013
+//Date last Modified : Nov.24, 2020
+//Program description : This script handles Score text ui inside game screen
+//Revision History : Nov.24, 2020 Created, Added OnScoreChanged so that when score changes, ui text changes
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 

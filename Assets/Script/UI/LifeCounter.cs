@@ -4,6 +4,7 @@
 //Date last Modified : Nov.14, 2020
 //Program description : This script handles life count ui
 //Revision History : Nov.14, 2020 Created
+//                   Nov.24, 2020 Change life ui when life decreased
 
 using System.Collections;
 using System.Collections.Generic;

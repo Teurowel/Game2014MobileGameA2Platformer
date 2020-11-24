@@ -1,7 +1,16 @@
-﻿using System.Collections;
+﻿//SourceFileName : GlobalData.cs
+//Author's name : Doosung Jang
+//Studnet Number : 101175013
+//Date last Modified : Nov.24, 2020
+//Program description : This script handles global data such as life or scroe
+//Revision History : Nov.24, 2020 Created, Added UnityEvent for onScoreCHanged and onLifeChanged
+//                                When game level loaded, reset score and life
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 public class GlobalData : MonoBehaviour
 {
@@ -57,9 +66,43 @@ public class GlobalData : MonoBehaviour
     {
         life -= 1;
 
-        if(onLifeChanged != null)
+        if (life <= 0)
         {
-            onLifeChanged.Invoke();
+            SceneManager.LoadScene("GameOverScreen");
+        }
+        else
+        {
+            if (onLifeChanged != null)
+            {
+                onLifeChanged.Invoke();
+            }
+        }
+    }
+
+
+    void OnEnable()
+    {
+        //Tell our 'OnLevelFinishedLoading' function to start listening for a scene change as soon as this script is enabled.
+        SceneManager.sceneLoaded += OnLevelFinishedLoading;
+    }
+
+    void OnDisable()
+    {
+        //Tell our 'OnLevelFinishedLoading' function to stop listening for a scene change as soon as this script is disabled. Remember to always have an unsubscription for every delegate you subscribe to!
+        SceneManager.sceneLoaded -= OnLevelFinishedLoading;
+    }
+
+    void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
+    {
+        Debug.Log("Level Loaded");
+        Debug.Log(scene.name);
+        Debug.Log(mode);
+
+        //If we loaded game level, reset score and life
+        if(scene.name == "GameLevel01")
+        {
+            score = 0;
+            life = 3;
         }
     }
 }
