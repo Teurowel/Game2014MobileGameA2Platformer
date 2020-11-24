@@ -6801,6 +6801,9 @@ MonoBehaviour:
   onHealthChanged:
     m_PersistentCalls:
       m_Calls: []
+  onDeath:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1043107046
 GameObject:
   m_ObjectHideFlags: 0
@@ -7258,6 +7261,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   onAttackAnimFinished:
+    m_PersistentCalls:
+      m_Calls: []
+  onAttackCalculation:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1 &1146247714
@@ -10369,6 +10375,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1304767956}
     m_Modifications:
+    - target: {fileID: 3384679751202525533, guid: 8baf1314506833642a73dfb0197569fc, type: 3}
+      propertyPath: hp
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 3384679751202525533, guid: 8baf1314506833642a73dfb0197569fc, type: 3}
+      propertyPath: maxHp
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 3923328297362529210, guid: 8baf1314506833642a73dfb0197569fc, type: 3}
       propertyPath: m_Name
       value: Skeleton

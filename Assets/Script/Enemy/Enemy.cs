@@ -4,6 +4,7 @@
 //Date last Modified : Nov.23, 2020
 //Program description : This script handles basic enemy's variables and behaviour
 //Revision History : Nov.23, 2020 Created, added ground checking, movement, attacking
+//                   Nov.24, 2020 Added death system
 
 using System.Collections;
 using System.Collections.Generic;
@@ -56,6 +57,10 @@ public class Enemy : MonoBehaviour
         }
 
         stats = GetComponent<Stats>();
+        if (stats != null)
+        {
+            stats.onDeath.AddListener(OnDeath);
+        }
     }
 
     // Update is called once per frame
@@ -189,5 +194,20 @@ public class Enemy : MonoBehaviour
                 playerStats.GetDamage(stats.damage);
             }
         }
+    }
+
+    void OnDeath()
+    {
+        //Set death trigger
+        animator.SetTrigger("Death");
+
+        //Disable collider
+        GetComponent<Collider2D>().enabled = false;
+
+        //Change rigidbody type to kenematic
+        GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Kinematic;
+
+        //disable enemy script
+        enabled = false;
     }
 }

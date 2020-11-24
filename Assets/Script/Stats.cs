@@ -18,6 +18,7 @@ public class Stats : MonoBehaviour
 
     //hp, maxhp
     public UnityEvent<int, int> onHealthChanged; //Health UI will subscribe this,
+    public UnityEvent onDeath; //player, enemy will subscribe this
 
     //// Start is called before the first frame update
     //void Start()
@@ -35,6 +36,17 @@ public class Stats : MonoBehaviour
     {
         hp -= _damage;
 
-        onHealthChanged.Invoke(hp, maxHp);
+        if(hp <= 0)
+        {
+            if (onDeath != null)
+            {
+                onDeath.Invoke();
+            }
+        }
+
+        if (onHealthChanged != null)
+        {
+            onHealthChanged.Invoke(hp, maxHp);
+        }
     }
 }
