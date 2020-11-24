@@ -31,6 +31,16 @@ public class Pickup : MonoBehaviour
         {
             GlobalData.instance.AddScore(score);
 
+
+            if (SoundManager.instance != null)
+            {
+                SoundManager.instance.Play("PickupSFX");
+            }
+            else
+            {
+                Debug.Log("Should start from main menu scene since SoundManager is only created in menu scene");
+            }
+
             //Destroy self
             Destroy(gameObject);
         }

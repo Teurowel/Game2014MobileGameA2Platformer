@@ -6565,7 +6565,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 50410ad3e8416d947a9b3bc18aedc67a, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.373
+  m_Volume: 0.2
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -8627,9 +8627,9 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 474791660}
-  - {fileID: 1919705215}
   - {fileID: 347957697}
   - {fileID: 377201776}
+  - {fileID: 1919705215}
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -9655,14 +9655,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1304767956}
     m_Modifications:
-    - target: {fileID: 3384679751202525533, guid: 8baf1314506833642a73dfb0197569fc, type: 3}
-      propertyPath: hp
-      value: 50
-      objectReference: {fileID: 0}
-    - target: {fileID: 3384679751202525533, guid: 8baf1314506833642a73dfb0197569fc, type: 3}
-      propertyPath: maxHp
-      value: 50
-      objectReference: {fileID: 0}
     - target: {fileID: 3923328297362529210, guid: 8baf1314506833642a73dfb0197569fc, type: 3}
       propertyPath: m_Name
       value: Skeleton

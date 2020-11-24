@@ -452,7 +452,37 @@ MonoBehaviour:
   listOfSounds:
   - name: ButtonSFX
     clip: {fileID: 8300000, guid: e8f28f91407b14d468d19557ada933ca, type: 3}
-    volume: 0.6
+    volume: 0.967
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: PlayerAttackSFX
+    clip: {fileID: 8300000, guid: 80151380c0f818243b66a78ef69c9fcd, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: PlayerHitSFX
+    clip: {fileID: 8300000, guid: 67dd73a8fb8b99e4d8c8d793c86c4324, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: EnemyAttackSFX
+    clip: {fileID: 8300000, guid: 2375dadc4293d3f4380b59887ce8416b, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: EnemyHitSFX
+    clip: {fileID: 8300000, guid: 5f81bdff582c2fc4488e1129bc037245, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: PickupSFX
+    clip: {fileID: 8300000, guid: 620c1d99d688e654390c1f2d4e2172cd, type: 3}
+    volume: 1
     pitch: 1
     loop: 0
     source: {fileID: 0}
@@ -3278,7 +3308,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 15da5483de7d548488a1e6e4978599ea, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.436
+  m_Volume: 0.203
   m_Pitch: 1
   Loop: 1
   Mute: 0

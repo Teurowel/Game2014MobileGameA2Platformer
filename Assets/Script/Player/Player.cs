@@ -197,6 +197,15 @@ public class Player : MonoBehaviour
 
             isAttacking = true;
             moveDir.x = 0f;
+
+            if (SoundManager.instance != null)
+            {
+                SoundManager.instance.Play("PlayerAttackSFX");                
+            }
+            else
+            {
+                Debug.Log("Should start from main menu scene since SoundManager is only created in menu scene");
+            }
         }
     }
 
@@ -249,6 +258,15 @@ public class Player : MonoBehaviour
                 if (enemyStats != null)
                 {
                     enemyStats.GetDamage(stats.damage);
+
+                    if (SoundManager.instance != null)
+                    {
+                        SoundManager.instance.Play("EnemyHitSFX");
+                    }
+                    else
+                    {
+                        Debug.Log("Should start from main menu scene since SoundManager is only created in menu scene");
+                    }
                 }
             }
         }

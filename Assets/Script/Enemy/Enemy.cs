@@ -135,6 +135,15 @@ public class Enemy : MonoBehaviour
             animator.SetTrigger("Attack");
 
             Invoke("ResetAttackCool", attackSpeed);
+
+            if (SoundManager.instance != null)
+            {
+                SoundManager.instance.Play("EnemyAttackSFX");
+            }
+            else
+            {
+                Debug.Log("Should start from main menu scene since SoundManager is only created in menu scene");
+            }
         }
     }
 
@@ -201,6 +210,15 @@ public class Enemy : MonoBehaviour
             {
                 Debug.Log("Damage Player");
                 playerStats.GetDamage(stats.damage);
+
+                if (SoundManager.instance != null)
+                {
+                    SoundManager.instance.Play("PlayerHitSFX");
+                }
+                else
+                {
+                    Debug.Log("Should start from main menu scene since SoundManager is only created in menu scene");
+                }
             }
         }
     }
