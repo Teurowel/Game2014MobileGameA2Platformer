@@ -89,10 +89,13 @@ public class HealthUI : MonoBehaviour
             float healthPercent = (float)health / (float)maxHealth;
             healthSlider.fillAmount = healthPercent;
 
-            //If character was dead, destroy ui
-            if (health <= 0)
+            //If only enemy was dead, destroy ui
+            if (target.CompareTag("Player") == false)
             {
-                Destroy(ui.gameObject);
+                if (health <= 0)
+                {
+                    Destroy(ui.gameObject);
+                }
             }
         }
     }

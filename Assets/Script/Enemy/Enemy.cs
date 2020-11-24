@@ -104,8 +104,8 @@ public class Enemy : MonoBehaviour
 
     float CheckPlayerDistance()
     {
-        float distance = 0.0f;
-        if (player != null)
+        float distance = 999.0f;
+        if (player != null && player.hasDead == false)
         {
             distance = Vector3.Distance(player.transform.position, attackCirclePos.position);
         }

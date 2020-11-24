@@ -29,16 +29,27 @@ public class ResetZone : MonoBehaviour
     {
         if(collision.gameObject.CompareTag("Player"))
         {
-            if (currentSavePoint != null)
-            {
-                Vector3 pos = currentSavePoint.position;
-                pos.y += 2.0f;
-                collision.gameObject.transform.position = pos;
+            ResetPlayer();
+        }
+    }
 
-                if(GlobalData.instance != null)
-                {
-                    GlobalData.instance.DecreaseLife();
-                }
+    public void ResetPlayer()
+    {
+        if (currentSavePoint != null)
+        {
+            Vector3 pos = currentSavePoint.position;
+            pos.y += 2.0f;
+
+            Player player = FindObjectOfType<Player>();
+
+            if (player != null)
+            {
+                player.gameObject.transform.position = pos;
+            }
+
+            if (GlobalData.instance != null)
+            {
+                GlobalData.instance.DecreaseLife();
             }
         }
     }

@@ -6897,6 +6897,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 512
   attackSpeed: 1
+  hasDead: 0
 --- !u!114 &1000797242
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6923,8 +6924,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4d590e24d03f924599a8c0b0b841928, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 100
-  maxHp: 100
+  hp: 30
+  maxHp: 30
   damage: 10
   onHealthChanged:
     m_PersistentCalls:
@@ -8787,7 +8788,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7185552049345500501, guid: 4d2f8a5c2dff138449e7703e7fdf19b2, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -6
+      value: -4.47
       objectReference: {fileID: 0}
     - target: {fileID: 7185552049917297052, guid: 4d2f8a5c2dff138449e7703e7fdf19b2, type: 3}
       propertyPath: m_LocalPosition.x
@@ -8795,7 +8796,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7185552049917297052, guid: 4d2f8a5c2dff138449e7703e7fdf19b2, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 6
+      value: 7.36
       objectReference: {fileID: 0}
     - target: {fileID: 7185552050247067233, guid: 4d2f8a5c2dff138449e7703e7fdf19b2, type: 3}
       propertyPath: m_Name
@@ -9782,11 +9783,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7185552049345500501, guid: 4d2f8a5c2dff138449e7703e7fdf19b2, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 4
+      value: 3.28
       objectReference: {fileID: 0}
     - target: {fileID: 7185552049917297052, guid: 4d2f8a5c2dff138449e7703e7fdf19b2, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -4
+      value: -3.23
       objectReference: {fileID: 0}
     - target: {fileID: 7185552049917297052, guid: 4d2f8a5c2dff138449e7703e7fdf19b2, type: 3}
       propertyPath: m_LocalPosition.y

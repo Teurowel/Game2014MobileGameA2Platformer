@@ -46,6 +46,8 @@ public class Player : MonoBehaviour
     bool attackCool = true;
     [SerializeField] float attackSpeed = 1.0f; //attack per second
     bool isAttacking = false; //TO prevent moving when player is attacking
+
+    public bool hasDead = false;
     #endregion
 
     // Start is called before the first frame update
@@ -66,12 +68,16 @@ public class Player : MonoBehaviour
 
 
         stats = GetComponent<Stats>();
+        if (stats != null)
+        {
+            stats.onDeath.AddListener(OnDeath);
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (isAttacking == false)
+        if (isAttacking == false && hasDead == false)
         {
             HandleInput();
         }
@@ -79,36 +85,39 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
-        //Jump
-        if (shouldJump == true)
+        if (hasDead == false)
         {
-            rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-            //rb.velocity = Vector2.ClampMagnitude(rb.velocity, 10);
-            shouldJump = false; 
-            Debug.Log("Jump!");
-        }
-
-        //Change player's velocity
-        Vector2 tempVel = rb.velocity;
-        tempVel.x = moveDir.x * moveSpeed;
-        rb.velocity = tempVel;
-
-        //Set vertical speed for animator
-        animator.SetFloat("VerticalSpeed", rb.velocity.y);
-
-        //Check if animation is playing jumping, if true, check we are on ground and set jumping back to idle
-        if(animator.GetBool("IsJumping") == true)
-        {
-            if(IsPlayerOnGround() == true)
+            //Jump
+            if (shouldJump == true)
             {
-                animator.SetBool("IsJumping", false);
+                rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+                //rb.velocity = Vector2.ClampMagnitude(rb.velocity, 10);
+                shouldJump = false;
+                Debug.Log("Jump!");
             }
-        }
 
-        //If we just fall...
-        if(rb.velocity.y < -1.0f)
-        {
-            animator.SetBool("IsJumping", true);
+            //Change player's velocity
+            Vector2 tempVel = rb.velocity;
+            tempVel.x = moveDir.x * moveSpeed;
+            rb.velocity = tempVel;
+
+            //Set vertical speed for animator
+            animator.SetFloat("VerticalSpeed", rb.velocity.y);
+
+            //Check if animation is playing jumping, if true, check we are on ground and set jumping back to idle
+            if (animator.GetBool("IsJumping") == true)
+            {
+                if (IsPlayerOnGround() == true)
+                {
+                    animator.SetBool("IsJumping", false);
+                }
+            }
+
+            //If we just fall...
+            if (rb.velocity.y < -1.0f)
+            {
+                animator.SetBool("IsJumping", true);
+            }
         }
     }
 
@@ -243,5 +252,41 @@ public class Player : MonoBehaviour
                 }
             }
         }
+    }
+
+    void OnDeath()
+    {
+        //Set death trigger
+        animator.SetTrigger("Death");
+
+        //Disable collider
+        capsuleCollider2D.enabled = false;
+
+        //Change rigidbody type to kenematic
+        rb.velocity = Vector2.zero;
+        rb.bodyType = RigidbodyType2D.Kinematic;
+        
+
+        hasDead = true;
+
+        //After 5 seconds, destroy enemy
+        Invoke("ResetPlayer", 3);
+    }
+
+    void ResetPlayer()
+    {
+        FindObjectOfType<ResetZone>().ResetPlayer();
+
+        animator.SetTrigger("ResetAnim");
+
+        stats.GetDamage(-stats.maxHp);
+
+        //Disable collider
+        capsuleCollider2D.enabled = true;
+
+        //Change rigidbody type to kenematic
+        rb.bodyType = RigidbodyType2D.Dynamic;
+
+        hasDead = false;
     }
 }
