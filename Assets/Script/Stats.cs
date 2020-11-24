@@ -3,7 +3,7 @@
 //Studnet Number : 101175013
 //Date last Modified : Nov.23, 2020
 //Program description : This script handles Stats
-//Revision History : Nov.23, 2020 Created
+//Revision History : Nov.23, 2020 Created, Added onHealthCHagned, onDeath UnityEvent
 
 using System.Collections;
 using System.Collections.Generic;

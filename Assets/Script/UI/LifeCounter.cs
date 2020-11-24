@@ -14,12 +14,27 @@ public class LifeCounter : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        if (GlobalData.instance != null)
+        {
+            GlobalData.instance.onLifeChanged.AddListener(OnLifeChanged);
+        }
+        else
+        {
+            Debug.LogWarning("GlobalData is null, check LifeCounter");
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
         
+    }
+
+    void OnLifeChanged()
+    {
+        if (transform.childCount != 0)
+        {
+            Destroy(transform.GetChild(0).gameObject);
+        }
     }
 }

@@ -32,6 +32,11 @@ public class ResetZone : MonoBehaviour
             if (resetPoint != null)
             {
                 collision.gameObject.transform.position = resetPoint.position;
+
+                if(GlobalData.instance != null)
+                {
+                    GlobalData.instance.DecreaseLife();
+                }
             }
         }
     }

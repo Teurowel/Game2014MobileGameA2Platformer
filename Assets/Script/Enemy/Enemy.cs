@@ -18,6 +18,7 @@ public class Enemy : MonoBehaviour
 
     [Header("Attribute")]
     public float moveSpeed = 1.5f;
+    [SerializeField] int score = 50;
 
     [Header("GroundDetection")]
     [SerializeField] Transform groundDetectionPoint; //ground detection start point
@@ -38,6 +39,8 @@ public class Enemy : MonoBehaviour
     [SerializeField] float attackFirstDelay = 0.3f; //How much time does it take to initiate attack?
 
     Player player = null;
+
+    bool hasDead = false;
 
     // Start is called before the first frame update
     void Start()
@@ -71,29 +74,32 @@ public class Enemy : MonoBehaviour
 
     private void FixedUpdate()
     {
-        float distance = CheckPlayerDistance();
+        if (hasDead == false)
+        {
+            float distance = CheckPlayerDistance();
 
-        //If distance between player and enemy is less than attack radius, attack
-        if (distance <= attackCircleRadius)
-        {
-            Attack();
-        }
-        //or just move
-        else
-        {
-            //If enemy is not attacking...
-            if (isAttacking == false)
+            //If distance between player and enemy is less than attack radius, attack
+            if (distance <= attackCircleRadius)
             {
-                //basic move
-                Vector2 tempVel = rb.velocity;
-                tempVel.x = moveDir.x * moveSpeed;
-                rb.velocity = tempVel;
-
-                GroundDetection();
+                Attack();
             }
-        }
+            //or just move
+            else
+            {
+                //If enemy is not attacking...
+                if (isAttacking == false)
+                {
+                    //basic move
+                    Vector2 tempVel = rb.velocity;
+                    tempVel.x = moveDir.x * moveSpeed;
+                    rb.velocity = tempVel;
 
-        animator.SetFloat("HorizontalSpeed", rb.velocity.sqrMagnitude);
+                    GroundDetection();
+                }
+            }
+
+            animator.SetFloat("HorizontalSpeed", rb.velocity.sqrMagnitude);
+        }
     }
 
     float CheckPlayerDistance()
@@ -123,10 +129,13 @@ public class Enemy : MonoBehaviour
     }
 
     void TriggerAttack()
-    {        
-        animator.SetTrigger("Attack");
+    {
+        if (hasDead == false)
+        {
+            animator.SetTrigger("Attack");
 
-        Invoke("ResetAttackCool", attackSpeed);
+            Invoke("ResetAttackCool", attackSpeed);
+        }
     }
 
     void ResetAttackCool()
@@ -208,6 +217,17 @@ public class Enemy : MonoBehaviour
         GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Kinematic;
 
         //disable enemy script
-        enabled = false;
+        hasDead = true;
+
+        //Add score
+        GlobalData.instance.AddScore(score);
+
+        //After 5 seconds, destroy enemy
+        Invoke("DestroyEnemy", 5);
+    }
+
+    void DestroyEnemy()
+    {
+        Destroy(gameObject);
     }
 }
