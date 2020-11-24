@@ -11,7 +11,7 @@ using UnityEngine;
 
 public class ResetZone : MonoBehaviour
 {
-    [SerializeField] Transform resetPoint = null;
+    public Transform currentSavePoint = null;
 
     //// Start is called before the first frame update
     //void Start()
@@ -29,9 +29,11 @@ public class ResetZone : MonoBehaviour
     {
         if(collision.gameObject.CompareTag("Player"))
         {
-            if (resetPoint != null)
+            if (currentSavePoint != null)
             {
-                collision.gameObject.transform.position = resetPoint.position;
+                Vector3 pos = currentSavePoint.position;
+                pos.y += 2.0f;
+                collision.gameObject.transform.position = pos;
 
                 if(GlobalData.instance != null)
                 {
