@@ -22,7 +22,6 @@ public class Player : MonoBehaviour
     SpriteRenderer spriteRenderer = null;
     Stats stats = null;
 
-    //[SerializeField] bool debugMode = false;
 
     [Header("Attribute")]
     public float moveSpeed = 3.0f;
@@ -32,32 +31,8 @@ public class Player : MonoBehaviour
     bool isFacingRight = true;
 
     bool shouldJump = false; //Check if player should jump
-    //bool canShoot = true; //Check if player can shoot projectile
-
-    //[Header("Projectile")]
-    //public int maxNumOfProjectile = 10; //Max number of projectile
-    //public GameObject projectilePrefab = null; //Prefab for projectile
-    //Queue<Projectile> listOfProjectile = null; //Queue for projectile pool
-    //[SerializeField] float projectileSpawnDistance = 1f; //How far is projectile spanwed from player?
-    //Projectile loadedProjectile = null; //projectile that is wating for shooting
-    //Vector3 shootingLine; //Direction for loaded projectile
-
-    //bool isFacingRight = true; //Is character facing right side? for Characte flip
 
     [SerializeField] LayerMask tileLayerMask = 0; //Used to check if player is on ground
-
-    // to Get SFX sound name 
-    //[SerializeField]
-    //private string ShootSound;
-    //[SerializeField]
-    //private string JumpSound;
-
-
-    //[Header("Interact")]
-    //[SerializeField] float interactRadius = 5f;
-    //[SerializeField] LayerMask interactLayer;
-
-    //Camera mainCam = null;
 
     [Header("Joystick")]
     [SerializeField] Joystick joystick = null; //joystick for player movement
@@ -91,32 +66,6 @@ public class Player : MonoBehaviour
 
 
         stats = GetComponent<Stats>();
-        //animator = GetComponentInChildren<Animator>();
-
-        //Create queue for projectile pool
-        //listOfProjectile = new Queue<Projectile>();
-        //for (int i = 0; i < maxNumOfProjectile; ++i)
-        //{
-        //    GameObject projectile = Instantiate(projectilePrefab);
-
-        //    //Set owner of this projectile
-        //    projectile.GetComponent<Projectile>().owner = this;
-
-        //    //Set layer 
-        //    //if (gameObject.layer == (int)USER_LAYER.PLAYER)
-        //    //{
-        //    //    projectile.layer = (int)USER_LAYER.PLAYER_PROJECTILE;
-        //    //}
-        //    //else if (gameObject.layer == (int)USER_LAYER.OPPONENT)
-        //    //{
-        //    //    projectile.layer = (int)USER_LAYER.OPPONENT_PROJECTILE;
-        //    //}
-
-        //    //Add to pool
-        //    listOfProjectile.Enqueue(projectile.GetComponent<Projectile>());
-        //}
-
-        //mainCam = Camera.main;
     }
 
     // Update is called once per frame
@@ -205,13 +154,7 @@ public class Player : MonoBehaviour
         //Jump
         if (Input.GetKeyDown(KeyCode.Space) || joystick.Vertical > joystickVerticalSensitivity)
         {
-            //Only can jump if player is on ground and not loaded projectile
-            if (IsPlayerOnGround() == true && shouldJump == false)
-            {
-                //SoundManager.instance.PLaySE(JumpSound);
-                shouldJump = true;
-                animator.SetBool("IsJumping", true);
-            }
+            Jump();
         }
 
         //Attack
@@ -219,22 +162,17 @@ public class Player : MonoBehaviour
         {
             Attack();
         }
+    }
 
-        ////Interact
-        //if (Input.GetKeyDown(KeyCode.E))
-        //{
-        //    //Find any interactable object within circle
-        //    Collider2D result = Physics2D.OverlapCircle(transform.position, interactRadius, interactLayer);
-        //    if (result != null)
-        //    {
-        //        //Call interact interface function
-        //        IInteractable comp = result.gameObject.GetComponent<IInteractable>();
-        //        if (comp != null)
-        //        {
-        //            comp.Interact();
-        //        }
-        //    }
-        //}
+    public void Jump()
+    {
+        //Only can jump if player is on ground and not loaded projectile
+        if (IsPlayerOnGround() == true && shouldJump == false)
+        {
+            //SoundManager.instance.PLaySE(JumpSound);
+            shouldJump = true;
+            animator.SetBool("IsJumping", true);
+        }
     }
 
     public void Attack()

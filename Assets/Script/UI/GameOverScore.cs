@@ -11,18 +11,28 @@ using UnityEngine;
 
 public class GameOverScore : MonoBehaviour
 {
-    TMPro.TextMeshProUGUI text = null;
+    [SerializeField] TMPro.TextMeshProUGUI scoreText = null;
+    [SerializeField] TMPro.TextMeshProUGUI lifeBonusText = null;
+    [SerializeField] TMPro.TextMeshProUGUI finalScoreText = null;
 
     // Start is called before the first frame update
     void Start()
     {
-        text = GetComponent<TMPro.TextMeshProUGUI>();
-
         if (GlobalData.instance != null)
         {
-            if (text != null)
+            if (scoreText != null)
             {
-                text.text = "Score: " + GlobalData.instance.score.ToString();
+                scoreText.text = "Score: " + GlobalData.instance.score.ToString();
+            }
+
+            if (lifeBonusText != null)
+            {
+                lifeBonusText.text = "Life Bonus: " + GlobalData.instance.life.ToString() + " X 100";
+            }
+
+            if (finalScoreText != null)
+            {
+                finalScoreText.text = "Final Score: " + (GlobalData.instance.score + (GlobalData.instance.life * 100)).ToString();
             }
         }
         else
