@@ -486,6 +486,12 @@ MonoBehaviour:
     pitch: 1
     loop: 0
     source: {fileID: 0}
+  - name: SavePointSFX
+    clip: {fileID: 8300000, guid: 99883cbbe667de64f8e8e1697d30a99e, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
 --- !u!4 &331175056
 Transform:
   m_ObjectHideFlags: 0
